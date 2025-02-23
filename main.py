@@ -17,7 +17,9 @@ class Coffee(QMainWindow):
     def show_table(self):
         cur = self.con.cursor()
         result = cur.execute(
-            "SELECT * FROM coffee_data").fetchall()
+            "SELECT name, roasting.degree, condition.condition, taste, price, volume FROM coffee_data "
+            "INNER JOIN roasting ON roasting.id = coffee_data.roasting "
+            "INNER JOIN condition ON condition.id = coffee_data.condition").fetchall()
         self.tableWidget.setRowCount(len(result))
         self.tableWidget.setColumnCount(len(result[0]))
         self.titles = [description[0] for description in cur.description]
